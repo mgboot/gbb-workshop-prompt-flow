@@ -1,0 +1,29 @@
+$schema: https://azuremlschemas.azureedge.net/promptflow/latest/Flow.schema.json
+environment:
+  python_requirements_txt: requirements.txt
+inputs:
+  city_name:
+    type: string
+    default: Brisbane
+outputs:
+  output:
+    type: string
+    reference: ${aoai_request.output}
+nodes:
+- name: aoai_request
+  type: llm
+  source:
+    type: code
+    path: my_prompt.jinja2
+  inputs:
+    deployment_name: gpt-4o-deployment
+    city_name: ${inputs.city_name}
+    season: ${get_current_season.output}
+  connection: dos-aoai-westus-connection
+  api: chat
+- name: get_current_season
+  type: python
+  source:
+    type: code
+    path: get_current_season.py
+  inputs: {}
