@@ -15,9 +15,6 @@ Before you begin, ensure you have the following set up:
 - **VS Code**: Install Visual Studio Code.
 - **Prompt Flow Extension**: Install the Azure Prompt Flow extension for VS Code.
 - **GitHub Repo**: Clone the GBB-workshop-prompt-flow directory from GitHub.
-```
-git clone URL_GOES_HERE
-```
 - **Environment**: Initiate powershell in VS Code and set up a temporary coding environment with conda.
 - **Dependencies**: Install required libraries in requirements.txt. First navigate to the **GBB-workshop-prompt-flow** directory in VS Code Explorer. Then enter
 ```
@@ -136,12 +133,15 @@ If you want, you can even run a batch of city names using `cities.jsonl` as inpu
 
 Your poem-generation app has been wildly successful and it was purchased by an international travel agency. They want the poem to include one more thing: information about fun things to do or visit when vacationing as a tourist in that city.
 
-Data about touristy activities for many major world cities already exists as a .csv file  You will need to connect to a blob storage resource that contains 
-In this part, you will further extend the flow by adding another requirement: the poem must include information about fun things to do in the city.
+Data about touristy activities for many major world cities already exists as a .csv file that is in a blob storage account. To get this file you will have to access the blob storage account using certain credentials that will be provided to you during the workshop.
 
-- NEED TO FINISH THIS DEPENDING ON HOW WE DECIDE TO HANDLE THE BLOB STORAGE CONNECTION
+- Navigate to the `flow.dag.yaml` file within the *generate-poem-flow* directory (the same flow where you just added the Python node to retrieve the current season).
+- Create a new Python node based on the existing file `get_activities.py`. We will set this code up to connect to the blob storage account. This file also processes the .csv file as a Pandas dataframe and gets the activity information for the city we want.
+- Find the three *storage account details* near the top of `get_activities.py`. Fill them in with the values given to you during the workshop.
+- Adjust the inputs and outputs to fit this node into your poem-generating flow. The output of this node should flow into your LLM node. Note that, unlike the previous Python node we added, this one requires passing the `city_name` into it as input (since we want to get the activities for one specific city).
+- Finally, modify your prompt in the jinja2 file to accommodate a third variable, {{city_activities}}. (You can call it whatever you want as long as it has the same name in your jinja2 file and in the input configuration for the LLM node in your .yaml.)
 
-*(Remember how city names are formed in the dataset: non-US countries are spelled out, and US states are abbreviated. Searching the database for "Paris" will fail to find "Paris, France" and searching for "New York City" will fail to find "New York, NY".)*
+**Reminder:** Note how city names are formed in the dataset: non-US countries are spelled out, and US states are abbreviated. Searching the database for "Paris" will fail to find "Paris, France" and searching for "New York City" will fail to find "New York, NY".
 
 ## Conclusion
 
