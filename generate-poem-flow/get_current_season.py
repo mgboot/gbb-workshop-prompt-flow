@@ -10,6 +10,8 @@ def parse_season_from_date(date):
     """Determine the season based on the date."""
     month = date.month
     day = date.day
+
+    # technically this only works for the northern hemisphere. oops! we can fix this later. -mgb
     
     if (month == 12 and day >= 21) or (month in [1, 2]) or (month == 3 and day < 20):
         return 'Winter'
@@ -28,6 +30,5 @@ def get_season() -> str:
     response = client.request('time.windows.com')
     current_time = datetime.fromtimestamp(response.tx_time, tz=timezone.utc)
     season = parse_season_from_date(current_time)
-    print("Current season is: ", season)
 
     return season

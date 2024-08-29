@@ -38,12 +38,7 @@
     "my_prompt.jinja2": {
       "type": "llm",
       "inputs": {
-        "season": {
-          "type": [
-            "string"
-          ]
-        },
-        "city_name": {
+        "poem": {
           "type": [
             "string"
           ]
@@ -55,6 +50,18 @@
       "type": "python",
       "source": "get_current_season.py",
       "function": "get_season"
+    },
+    "python_node_lj4z.py": {
+      "type": "python",
+      "inputs": {
+        "input1": {
+          "type": [
+            "string"
+          ]
+        }
+      },
+      "source": "python_node_lj4z.py",
+      "function": "my_python_tool"
     }
   }
 }
